@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { Button, Text, View, StatusBar } from 'react-native';
 
-import styles from "../styles/User-style";
+import styles from "../styles/styleAll";
 
 const UserScreen = () => {
 
@@ -15,7 +15,7 @@ const UserScreen = () => {
                 
             </View>
 
-            <StatusBar barStyle="light-content" backgroundColor="#211D1D" />
+            <StatusBar barStyle="light-content" backgroundColor="#2C3639" />
         </>
     )
 }

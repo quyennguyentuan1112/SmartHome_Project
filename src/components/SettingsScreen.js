@@ -4,18 +4,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { Button, Text, View, StatusBar } from 'react-native';
 
-import styles from "../styles/User-style";
+import styles from "../styles/styleAll";
 
 const SettingsScreen = ({ navigation }) => {
 
     return (
         <>
             <View style={styles.container}>
-                <Text>User</Text>
-                <Button title='login' onPress={() => navigation.navigate('Login')}/>
+                <Text>Setting</Text>
             </View>
 
-            <StatusBar barStyle="light-content" backgroundColor="#211D1D" />
+            <StatusBar barStyle="light-content" backgroundColor="#2C3639" />
         </>
     )
 }
