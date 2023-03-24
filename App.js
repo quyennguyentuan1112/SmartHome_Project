@@ -7,6 +7,7 @@ import HomeScreen from "./src/components/HomeScreen";
 import SettingsScreen from "./src/components/SettingsScreen";
 import UserScreen from "./src/components/UserScreen";
 import LoginScreen from "./src/components/LoginScreen";
+import ChooseHouseScreen from "./src/components/ChooseHouseScreen";
 
 
 
@@ -38,6 +39,7 @@ const HomeNavigation = () => {
     return (
         <HomeStack.Navigator >
             <HomeStack.Screen name='Home' component={HomeScreen} />
+            <HomeStack.Screen name='Login' component={LoginScreen} />
         </HomeStack.Navigator>
     )
 
@@ -48,43 +50,62 @@ const Tab = createBottomTabNavigator();
 const MyTheme = {
     dark: false,
     colors: {
-      primary: '#FFB267',// ấn vào là nó hiện lên kiểu hover
-      background: '#2C3639',
-      card: '#2C3639',
-      text: '#F8F8F8',
-      border: '#2C3639',
-      notification: '#FFB267',
+        primary: '#FFB267',// ấn vào là nó hiện lên kiểu hover
+        background: '#211D1D',
+        card: '#211D1D',
+        text: '#F8F8F8',
+        border: '#2C3639',
+        notification: '#FFB267',
     },
-  };
+};
+
+
 
 const TabNavigation = () => {
     return (
         <>
-        <NavigationContainer theme={MyTheme}>
             <Tab.Navigator screenOptions={{ headerShown: false }} >
                 <Tab.Screen name="Home" component={HomeNavigation} />
                 <Tab.Screen name="User" component={UserNavigation} />
                 <Tab.Screen name="Settings" component={SettingsNavigation} />
-
             </Tab.Navigator>
-        </NavigationContainer>
         </>
-        
+
     )
 
 }
 
+const Login = createNativeStackNavigator();
+
+const LoginNavigation = () => {
+    return (
+        <Login.Navigator screenOptions={{ headerShown: false }}>
+            <Login.Screen name="Login" component={LoginScreen} />
+            <Login.Screen name="Tab" component={TabNavigation} />
+        </Login.Navigator>
+    )
+
+
+
+}
+
 export default function App() {
-  return (
+    return (
 
-    <>
-      {/* <TabNavigation /> */}
-      <LoginScreen />
-    </>
+        <>
+            {/* <TabNavigation /> */}
+            {/* <LoginScreen /> */}
+            {/* <ChooseHouseScreen /> */}
+            {/* <LoginNavigation /> */}
+            {/* <HomeNavigation /> */}
+            <NavigationContainer theme={MyTheme}>
+                <LoginNavigation />
+            </NavigationContainer>
+        </>
 
 
 
-  );
+    );
 }
 
 

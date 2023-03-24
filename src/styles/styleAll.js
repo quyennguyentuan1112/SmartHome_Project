@@ -3,8 +3,8 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      // backgroundColor: '#211D1D',
-      backgroundColor: '#2C3639',
+      backgroundColor: '#211D1D',
+      // backgroundColor: '#2C3639',
       
       // opacity: ,
       alignItems: 'center',
@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
       fontSize: 20,
       fontWeight: 'bold',
       marginBottom: 20,
+      color: '#F8F8F8'
     },
 
     input: {

@@ -14,7 +14,7 @@ const HomeScreen = ({ navigation }) => {
         <>
             <View style={styles.container}>
                 <Text style = {styles.text}>Open up App.js to start working on your app!</Text>
-                {/* <Button title='login' onPress={() => navigation.navigate('Login')} /> */}
+                <Button title='login' onPress={() => navigation.navigate('Login')} />
             </View>
             
             <StatusBar barStyle="light-content" backgroundColor="#2C3639" />
