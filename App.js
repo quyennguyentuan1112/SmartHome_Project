@@ -7,6 +7,7 @@ import HomeScreen from "./src/components/HomeScreen";
 import SettingsScreen from "./src/components/SettingsScreen";
 import UserScreen from "./src/components/UserScreen";
 import LoginScreen from "./src/components/LoginScreen";
+import RegisterScreen from "./src/components/RegisterScreen";
 import ChooseHouseScreen from "./src/components/ChooseHouseScreen";
 
 
@@ -81,6 +82,7 @@ const LoginNavigation = () => {
     return (
         <Login.Navigator screenOptions={{ headerShown: false }}>
             <Login.Screen name="Login" component={LoginScreen} />
+            <Login.Screen name="Register" component={RegisterScreen} />
             <Login.Screen name="Tab" component={TabNavigation} />
         </Login.Navigator>
     )
@@ -93,11 +95,7 @@ export default function App() {
     return (
 
         <>
-            {/* <TabNavigation /> */}
-            {/* <LoginScreen /> */}
-            {/* <ChooseHouseScreen /> */}
-            {/* <LoginNavigation /> */}
-            {/* <HomeNavigation /> */}
+            
             <NavigationContainer theme={MyTheme}>
                 <LoginNavigation />
             </NavigationContainer>

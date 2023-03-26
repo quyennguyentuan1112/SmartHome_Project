@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StatusBar, TextInput, Button, StyleSheet, ImageBackground } from 'react-native';
 // import styles from '../styles/styleAll';
 
-import { useNavigation } from '@react-navigation/native';
+const Separator = () => <View style={styles.separator} />;
+
 
 const LoginScreen = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -49,7 +50,16 @@ const LoginScreen = ({ navigation }) => {
                     <Button
                         style={styles.button}
                         title="Đăng nhập"
+                        color={'#FFB267'}
                         onPress={handleLogin}
+                    />
+
+                    <Separator />
+                    <Text style={styles.subTitle}>Bạn chưa có tài khoản?</Text>
+                    <Button
+                        style={styles.button}
+                        title="Đi tới đăng ký"
+                        onPress={() => navigation.navigate('Register')}
                     />
                 </ImageBackground>
 
@@ -104,13 +114,17 @@ const styles = StyleSheet.create({
 
     },
     button: {
-        width: '80%',
-        backgroundColor: '#FFB267',
+        width: '100%',
         color: '#FFF',
-
         padding: 10,
         borderRadius: 5,
     },
+
+    separator: {
+        marginVertical: 8,
+        borderBottomColor: '#737373',
+        borderBottomWidth: StyleSheet.hairlineWidth,
+      },
 });
 
 
