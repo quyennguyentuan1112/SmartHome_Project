@@ -2,6 +2,8 @@ import React from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 import HomeScreen from "./src/components/HomeScreen";
 import SettingsScreen from "./src/components/SettingsScreen";
@@ -40,7 +42,6 @@ const HomeNavigation = () => {
     return (
         <HomeStack.Navigator >
             <HomeStack.Screen name='Home' component={HomeScreen} />
-            <HomeStack.Screen name='Login' component={LoginScreen} />
         </HomeStack.Navigator>
     )
 
@@ -49,11 +50,11 @@ const HomeNavigation = () => {
 const Tab = createBottomTabNavigator();
 
 const MyTheme = {
-    dark: false,
+    dark: true,
     colors: {
         primary: '#FFB267',// ấn vào là nó hiện lên kiểu hover
-        background: '#211D1D',
-        card: '#211D1D',
+        background: '#393E46',
+        card: '#393E46',
         text: '#F8F8F8',
         border: '#2C3639',
         notification: '#FFB267',
@@ -65,10 +66,44 @@ const MyTheme = {
 const TabNavigation = () => {
     return (
         <>
-            <Tab.Navigator screenOptions={{ headerShown: false }} >
-                <Tab.Screen name="Home" component={HomeNavigation} />
-                <Tab.Screen name="User" component={UserNavigation} />
-                <Tab.Screen name="Settings" component={SettingsNavigation} />
+            <Tab.Navigator
+                initialRouteName="Home"
+                tabBarOptions={{
+                    activeTintColor: '#FFB267',
+                }} 
+                screenOptions={{ headerShown: false }}
+            >
+                <Tab.Screen
+                    name="Home"
+                    component={HomeNavigation}
+                    options={{
+                        tabBarLabel: 'Home',
+                        tabBarIcon: ({ color, size }) => (
+                            <Icon name="ios-home" color={color} size={size} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="Settings"
+                    component={SettingsNavigation}
+                    options={{
+                        tabBarLabel: 'Settings',
+                        tabBarIcon: ({ color, size }) => (
+                            <Icon name="ios-settings" color={color} size={size} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="Messages"
+                    component={UserNavigation}
+                    options={{
+                        tabBarLabel: 'Messages',
+                        tabBarIcon: ({ color, size }) => (
+                            <Icon name="ios-mail" color={color} size={size} />
+                        ),
+                        tabBarBadge: 3,
+                    }}
+                />
             </Tab.Navigator>
         </>
 
@@ -95,10 +130,12 @@ export default function App() {
     return (
 
         <>
-            
+
             <NavigationContainer theme={MyTheme}>
                 <LoginNavigation />
             </NavigationContainer>
+            
+
         </>
 
 
