@@ -58,13 +58,13 @@ const styles = StyleSheet.create({
         marginRight: 5,
     },
     welcome: {
-        fontSize: 20,
-        fontWeight: '200',
-        fontWeight: '400',
+        fontSize: 23,
+        fontWeight: '300',
+        // fontWeight: '400',
         color: '#EEEEEE',
     },
     name: {
-        fontSize: 20,
+        fontSize: 23,
         fontWeight: '400',
         color: '#EEEEEE',
     }

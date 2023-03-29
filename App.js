@@ -1,4 +1,5 @@
 import React from "react";
+import { StatusBar } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
@@ -6,32 +7,34 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 
 import HomeScreen from "./src/components/HomeScreen";
-import SettingsScreen from "./src/components/SettingsScreen";
-import UserScreen from "./src/components/UserScreen";
+import SettingsScreen from "./src/components/NotificationScreen";
+import NotificationScreen from "./src/components/NotificationScreen";
 import LoginScreen from "./src/components/LoginScreen";
 import RegisterScreen from "./src/components/RegisterScreen";
 import ChooseHouseScreen from "./src/components/ChooseHouseScreen";
+import LampScreen from "./src/components/LampScreen";
+import UserScreen from "./src/components/UserScreen";
 
 
+
+const NotificationsStack = createNativeStackNavigator();
+
+const NotificationsNavigation = () => {
+    return (
+        <NotificationsStack.Navigator>
+            <NotificationsStack.Screen name='Notifications' component={NotificationScreen} />
+        </NotificationsStack.Navigator>
+    )
+
+}
 
 const UserStack = createNativeStackNavigator();
 
 const UserNavigation = () => {
     return (
-        <UserStack.Navigator>
+        <UserStack.Navigator >
             <UserStack.Screen name='User' component={UserScreen} />
         </UserStack.Navigator>
-    )
-
-}
-
-const SettingsStack = createNativeStackNavigator();
-
-const SettingsNavigation = () => {
-    return (
-        <SettingsStack.Navigator >
-            <SettingsStack.Screen name='Settings' component={SettingsScreen} />
-        </SettingsStack.Navigator>
     )
 
 }
@@ -40,8 +43,9 @@ const HomeStack = createNativeStackNavigator();
 
 const HomeNavigation = () => {
     return (
-        <HomeStack.Navigator >
+        <HomeStack.Navigator initialRouteName="Home">
             <HomeStack.Screen name='Home' component={HomeScreen} />
+            <HomeStack.Screen name='Lamp' component={LampScreen} />
         </HomeStack.Navigator>
     )
 
@@ -53,8 +57,8 @@ const MyTheme = {
     dark: true,
     colors: {
         primary: '#FFB267',// ấn vào là nó hiện lên kiểu hover
-        background: '#393E46',
-        card: '#393E46',
+        background: '#222831',
+        card: '#222831',
         text: '#F8F8F8',
         border: '#2C3639',
         notification: '#FFB267',
@@ -84,24 +88,24 @@ const TabNavigation = () => {
                     }}
                 />
                 <Tab.Screen
-                    name="Settings"
-                    component={SettingsNavigation}
+                    name="Notification"
+                    component={NotificationsNavigation}
                     options={{
-                        tabBarLabel: 'Settings',
+                        tabBarLabel: 'Notification',
                         tabBarIcon: ({ color, size }) => (
-                            <Icon name="ios-settings" color={color} size={size} />
+                            <Icon name="ios-notifications" color={color} size={size} />
                         ),
+                        tabBarBadge: 3,
                     }}
                 />
                 <Tab.Screen
-                    name="Messages"
+                    name="User"
                     component={UserNavigation}
                     options={{
-                        tabBarLabel: 'Messages',
+                        tabBarLabel: 'User',
                         tabBarIcon: ({ color, size }) => (
-                            <Icon name="ios-mail" color={color} size={size} />
+                            <Icon name="person" color={color} size={size} />
                         ),
-                        tabBarBadge: 3,
                     }}
                 />
             </Tab.Navigator>
@@ -135,7 +139,7 @@ export default function App() {
                 <LoginNavigation />
             </NavigationContainer>
             
-
+            <StatusBar barStyle="light-content" backgroundColor="#222831" />
         </>
 
 

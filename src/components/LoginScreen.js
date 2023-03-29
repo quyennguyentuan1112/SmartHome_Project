@@ -66,7 +66,7 @@ const LoginScreen = ({ navigation }) => {
 
             </View>
 
-            <StatusBar barStyle="light-content" backgroundColor="#2C3639" />
+            <StatusBar barStyle="light-content" backgroundColor="#222831" />
         </>
     )
 }

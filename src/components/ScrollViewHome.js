@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 
-const ScrollViewHome = () => {
+const ScrollViewHome = ({ navigation }) => {
 
     const image1 = { uri: 'https://i.pinimg.com/564x/ce/4a/47/ce4a4772237d762db3d9662cbaad710d.jpg' };
     const image2 = { uri: 'https://i.pinimg.com/236x/fa/9b/68/fa9b68ebcde0d644a75722a7a4caed27.jpg' };
@@ -29,14 +29,14 @@ const ScrollViewHome = () => {
                     </View>
                     <View style={styles.device}>
                         <ImageBackground imageStyle={{ borderRadius: 10 }} source={image2} resizeMode="cover" style={styles.imageBackground}>
-                            <TouchableOpacity style = {styles.button}>
+                            <TouchableOpacity style = {styles.button} onPress={() => navigation.navigate('Lamp')}>
                                 <Text style = {styles.subTitle}>Lamp</Text>
                             </TouchableOpacity>
                         </ImageBackground>
                     </View>
                     <View style={styles.device}>
                         <ImageBackground imageStyle={{ borderRadius: 10 }} source={image3} resizeMode="cover" style={styles.imageBackground}>
-                            <TouchableOpacity style = {styles.button}>
+                            <TouchableOpacity style = {styles.button} >
                                 <Text style = {styles.subTitle}>Air conditioner</Text>
                             </TouchableOpacity>
                         </ImageBackground>

@@ -20,11 +20,12 @@ const HomeScreen = ({ navigation }) => {
                     <WelcomeHome />
                     <WeatherApp />
                     <Text style = {styles.TitleScrollView}>Devices and Feature</Text>
-                    <ScrollViewHome />
+                    <ScrollViewHome 
+                    navigation = {navigation}/>
                 </ImageBackground>
             </View>
 
-            <StatusBar barStyle="light-content" backgroundColor="#211D1D" />
+            <StatusBar barStyle="light-content" backgroundColor="#222831" />
         </>
     )
 }
