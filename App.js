@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StatusBar } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -14,6 +14,9 @@ import RegisterScreen from "./src/components/RegisterScreen";
 import ChooseHouseScreen from "./src/components/ChooseHouseScreen";
 import LampScreen from "./src/components/LampScreen";
 import UserScreen from "./src/components/UserScreen";
+import axios from "axios";
+
+
 
 
 
@@ -131,6 +134,26 @@ const LoginNavigation = () => {
 }
 
 export default function App() {
+
+
+////////////////////////////////////////////////////////////////
+
+const fetchApi = async () => {
+    try {
+        const res = await axios.get('http://192.168.0.107:8000/')
+        console.log(res.data);
+    } catch (error) {
+        console.log('error massage: ', error.message);
+    }
+}
+
+useEffect(() => {
+    fetchApi();
+}, [])
+
+////////////////////////////////////////////////////////////////
+
+
     return (
 
         <>

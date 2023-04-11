@@ -1,46 +1,64 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StatusBar, TextInput, Button, StyleSheet, ImageBackground, Alert } from 'react-native';
+import { set } from "react-native-reanimated";
 // import styles from '../styles/styleAll';
+import client from "../api/client";
 
 const Separator = () => <View style={styles.separator} />;
 
 
 const RegisterScreen = ({ navigation }) => {
-    const [username, setUsername] = useState('');
+    const [fullname, setFullname] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [userList, setUserList] = useState([
-        { idUser: 101, username: 'tuanquyen', password: '123456' },
-        { idUser: 102, username: 'qqq', password: '1010' },
-        { idUser: 103, username: 'nghiamap', password: '123' }
-    ]);
+    const [userFinal, setUserFinal] = useState({
+        fullname: '',
+        email: '',
+        password: '',
+    })
+
+    useEffect(() => {
+        setUserFinal({
+            fullname: fullname,
+            email: email,
+            password: password,
+        });
+    }, [fullname, email, password]);
 
     const image = { uri: 'https://i.pinimg.com/564x/eb/23/16/eb2316a4c199cb12436f6b9f440a2330.jpg' };
 
 
-    const handleRegister = () => {
-        const existingUser = userList.find(user => user.username === username);
+    const handleRegister = async () => {
+        console.log(userFinal);
+        if (fullname === '' || email === '' || password === '' || confirmPassword === '') {
+            Alert.alert('Thông báo', 'Hãy điền đầy đủ thông tin');
+            return;
+        } 
+
         if (password !== confirmPassword) {
             Alert.alert('Thông báo', 'Mật khẩu nhập không trùng nhau');
             setPassword('');
             setConfirmPassword('');
             return;
         }
-        if (existingUser) {
-            Alert.alert('Thông báo', 'Đã tồn tại người dùng trùng username');
-            setUsername('');
+
+        const res = await client.post('/create-user', { // truy cập tới database để kiểm tra và thêm user
+            ...userFinal
+        })
+        console.log(res.data);
+         if (res && res.data.success === false) {
+            Alert.alert('Thông báo', 'Đã tồn tại người dùng trùng email');
+            setFullname('');
+            setEmail('');
             setPassword('');
             setConfirmPassword('');
             return;
         }
-        const newUser = {
-            idUser: Math.floor(Math.random() * 900) + 100,
-            username: username,
-            password: password
-        };
-        setUserList([...userList, newUser]);
+        
         Alert.alert('Thông báo', 'Đăng ký tài khoản thành công');
-        setUsername('');
+        setFullname('');
+        setEmail('');
         setPassword('');
         setConfirmPassword('');
         navigation.navigate('Login')
@@ -56,9 +74,16 @@ const RegisterScreen = ({ navigation }) => {
                     <Text style={styles.subTitle}>Điền đầy đủ thông tin để tạo tài khoản</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Tên đăng nhập"
-                        onChangeText={(text) => setUsername(text)}
-                        value={username}
+                        placeholder="Full name"
+                        onChangeText={(text) => setFullname(text)}
+                        value={fullname}
+                        placeholderTextColor="#F8F8F8"
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        onChangeText={(text) => setEmail(text)}
+                        value={email}
                         placeholderTextColor="#F8F8F8"
                     />
                     <TextInput

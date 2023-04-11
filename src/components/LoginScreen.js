@@ -1,27 +1,50 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StatusBar, TextInput, Button, StyleSheet, ImageBackground } from 'react-native';
 // import styles from '../styles/styleAll';
+import client from "../api/client";
 
 const Separator = () => <View style={styles.separator} />;
 
 
 const LoginScreen = ({ navigation }) => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [userFinal, setUserFinal] = useState({
+        email: '',
+        password: ''
+    });
 
+    useEffect(() => {
+        setUserFinal({
+            email: email,
+            password: password
+        })
+    }, [email, password]);
     const image = { uri: 'https://i.pinimg.com/564x/eb/23/16/eb2316a4c199cb12436f6b9f440a2330.jpg' };
 
-    const user = { id: 101, username: 'tuanquyen', password: '123456' }
+    // const user = { id: 101, username: 'tuanquyen', password: '123456' }
 
-    const handleLogin = () => {
-        // Xử lý đăng nhập
-        if (username === user.username && password === user.password) {
-            navigation.navigate('Tab')
-        } else {
-            alert('Sai tên đăng nhập hoặc mật khẩu!');
-            setUsername('');
-            setPassword('');
+    const handleLogin = async () => {
+        console.log(userFinal);
+        if (email === '' || password === '') {
+            Alert.alert('Thông báo', 'Hãy điền đầy đủ thông tin');
+            return;
         }
+
+        const res = await client.post('/sign-in', { // truy cập tới database để kiểm tra và thêm user
+            ...userFinal
+        })
+        console.log(res.data);
+        if (res && res.data.success === false) {
+            Alert.alert('Thông báo', 'Sai email hoặc password hoặc cả hai');
+            setEmail('');
+            setPassword('');
+            return;
+        }
+
+        setEmail('');
+        setPassword('');
+        navigation.navigate('Tab');
     };
 
 
@@ -35,8 +58,8 @@ const LoginScreen = ({ navigation }) => {
                     <TextInput
                         style={styles.input}
                         placeholder="Tên đăng nhập"
-                        onChangeText={(text) => setUsername(text)}
-                        value={username}
+                        onChangeText={(text) => setEmail(text)}
+                        value={email}
                         placeholderTextColor="#F8F8F8"
                     />
                     <TextInput
