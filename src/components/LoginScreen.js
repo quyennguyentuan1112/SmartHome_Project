@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { api } from '../api/client';
 
 const LoginScreen = ({ navigation }) => {
@@ -12,17 +12,26 @@ const LoginScreen = ({ navigation }) => {
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        homeId : homeId, 
-        password : password }),
+      body: JSON.stringify({
+        homeId: homeId,
+        password: password
+      }),
     };
 
     const data = await api("check-home", options);
     console.log(data);
+    if (data.success === false) {
+      if (data.message === "Không đúng homeId hoặc password") {
+        Alert.alert("Không đúng homeId hoặc password")
+      } else {
+        Alert.alert("Hệ thống đang gặp vấn đề, thử lại sau.")
+      }
+    } else {
+      navigation.navigate('Tab', {
+        homeId: homeId,
+      })
+    }
 
-    navigation.navigate('Tab', {
-      homeId: homeId,
-    })
   };
 
   return (

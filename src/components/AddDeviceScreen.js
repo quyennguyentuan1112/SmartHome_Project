@@ -20,6 +20,7 @@ const DeviceFormScreen = ({ route, navigation }) => {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         idDevice: deviceCode,
+                        deviceType : deviceType,
                         nameDevice: deviceName,
                         deviceDescription: deviceDescription,
                         homeId: homeId
@@ -74,8 +75,8 @@ const DeviceFormScreen = ({ route, navigation }) => {
                 >
                     <Picker.Item label="Quạt" value="fan" />
                     <Picker.Item label="Đèn" value="led" />
-                    <Picker.Item label="Đo nhiệt độ" value="temperature" />
-                    <Picker.Item label="Đo độ ẩm" value="humidity" />
+                    {/* <Picker.Item label="Đo nhiệt độ" value="temperature" />
+                    <Picker.Item label="Đo độ ẩm" value="humidity" /> */}
                 </Picker>
             </View>
 
