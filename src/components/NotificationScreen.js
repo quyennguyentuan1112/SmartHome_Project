@@ -1,142 +1,198 @@
-import React from "react";
-import { Text, View, ScrollView, TouchableOpacity, Image, FlatList, StyleSheet } from 'react-native';
-
-
-const NotificationScreen = () => {
-    const data = [
-        {
-            postimage: 'https://w7.pngwing.com/pngs/806/172/png-transparent-bedroom-the-bedroom-s-furniture-interior-design-room-thumbnail.png',
-            username: 'BedRoom',
-            notification: ' Had turn off the light.',
-            time: '10:00'
-        },
-        {
-            postimage: 'https://png.pngtree.com/element_our/20200610/ourmid/pngtree-small-fresh-bathroom-image_2244430.jpg',
-            username: 'BathRoom',
-            notification: ' The temperature of the water is 35C',
-            time: '11:00'
-        },
-        {
-            postimage: 'https://cdn.pixabay.com/photo/2015/08/05/18/50/living-room-876886_960_720.png',
-            username: 'LivingRoom',
-            notification: ' Turn on TV.',
-            time: '12:00'
-        },
-        {
-            postimage: 'https://img.lovepik.com/original_origin_pic/18/12/07/6a404402161f4cb1c8dfd19efe0ffecc.png_wh860.png',
-            username: 'Yard',
-            notification: ' Motion detection',
-            time: '13:00'
-        },
-        {
-            postimage: 'https://cdn.pixabay.com/photo/2016/06/01/17/43/house-1429409_960_720.png',
-            username: 'Home',
-            notification: ' Air temperature is 27C.',
-            time: '19:00'
-        },
-        {
-            postimage: 'https://img.lovepik.com/original_origin_pic/18/12/07/6a404402161f4cb1c8dfd19efe0ffecc.png_wh860.png',
-            username: 'Yard',
-            notification: ' It is raining.',
-            time: '08:00'
-        },
-        {
-            postimage: 'https://png.pngtree.com/element_our/20200610/ourmid/pngtree-small-fresh-bathroom-image_2244430.jpg',
-            username: 'BathRoom',
-            notification: ' Had turn on the light.',
-            time: '15:00'
-        },
-        {
-            postimage: 'https://w7.pngwing.com/pngs/806/172/png-transparent-bedroom-the-bedroom-s-furniture-interior-design-room-thumbnail.png',
-            username: 'BedRoom',
-            notification: ' Had turn off the light.',
-            time: '07:00'
-        },
-        {
-            postimage: 'https://img.lovepik.com/original_origin_pic/18/12/07/6a404402161f4cb1c8dfd19efe0ffecc.png_wh860.png',
-            username: 'Yard',
-            notification: ' The yard is wet',
-            time: '14:00'
-        },
-        {
-            postimage: 'https://cdn.pixabay.com/photo/2016/06/01/17/43/house-1429409_960_720.png',
-            username: 'Home',
-            notification: ' Have 4 people.',
-            time: '04:00'
-        }
-
-    ];
-    return (
-        <View style={styles.container}>
-            {/* <ScrollView showsVerticalScrollIndicator={false}> */}
-                <FlatList
-                    data={data}
-                    keyExtractor={(item, index) => {
-                        return index.toString();
-                    }}
-                    renderItem={({ item }) => {
-                        return (
-                            <View style={styles.container}>
-                                <View style={styles.HeaderLeftImageView}>
-                                    <Image
-                                        style={styles.HeaderLeftImage}
-                                        source={{ uri: item.postimage }}
-                                    />
-                                </View>
-
-                                <View style={{ flexDirection: 'row', marginLeft: 10 }}>
-                                    <View>
-                                        <Text style={{ color: '#1B6ADF', fontSize: 15 }}>
-                                            {item.username}
-                                        </Text>
-                                        <Text style={{ color: '#64676B' }}>
-                                            {item.time}
-                                        </Text>
-                                    </View>
-                                    <View>
-                                        <Text style={{ color: '#64676B' }}>
-                                            {item.notification}
-                                        </Text>
-                                    </View>
-                                </View>
-
-                            </View>
-
-
-                        );
-                    }}
-                />
-            {/* </ScrollView> */}
-        </View>
+import {
+    Text,
+    StyleSheet,
+    View,
+    Animated,
+    KeyboardAvoidingView,
+  } from "react-native";
+  import React, { Component, useEffect, useRef } from "react";
+  import { TouchableOpacity } from "react-native";
+  import NotifyCard from "./NotifyCard";
+  import { ScrollView } from "react-native";
+  import { StatusBar } from "react-native";
+  const CONTAINER_HEIGHT = 80;
+  
+  export default function NotifyScreen() {
+    // Header Animation
+    const scrollY = useRef(new Animated.Value(0)).current;
+    const offsetAnim = useRef(new Animated.Value(0)).current;
+    const clampedScroll = Animated.diffClamp(
+      Animated.add(
+        scrollY.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 1],
+          extrapolateLeft: "clamp",
+        }),
+        offsetAnim
+      ),
+      0,
+      CONTAINER_HEIGHT
     );
-};
-
-
-
-export default NotificationScreen;
-
-const styles = StyleSheet.create({
+  
+    var _clampedScrollValue = 0;
+    var _offsetValue = 0;
+    var _scrollValue = 0;
+    useEffect(() => {
+      scrollY.addListener(({ value }) => {
+        const diff = value - _scrollValue;
+        _scrollValue = value;
+        _clampedScrollValue = Math.min(
+          Math.max(_clampedScrollValue * diff, 0),
+          CONTAINER_HEIGHT
+        );
+      });
+      offsetAnim.addListener(({ value }) => {
+        _offsetValue = value;
+      });
+    }, []);
+  
+    const headerTranslate = clampedScroll.interpolate({
+      inputRange: [0, CONTAINER_HEIGHT],
+      outputRange: [0, -CONTAINER_HEIGHT],
+      extrapolate: "clamp",
+    });
+    // End of header animation
+    notifyInfo = {
+      name: "name of task",
+      date: "Mar 10",
+      project: "name of project",
+      due: "March 12, 2023",
+    };
+  
+    return (
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+        enabled
+        keyboardVerticalOffset={Platform.select({ ios: 0, android: 500 })}
+      >
+        <StatusBar barStyle={"dark-content"} />
+        <Animated.View
+          style={[
+            styles.header,
+            { transform: [{ translateY: headerTranslate }] },
+          ]}
+        >
+          {/* Header */}
+          <View style={styles.rowSection}>
+            <TouchableOpacity style={styles.headerBehave}>
+              <Text style={styles.textHeader}>Clear all</Text>
+            </TouchableOpacity>
+            <Text
+              style={{
+                color: "#363942",
+                fontWeight: "bold",
+                fontSize: 24,
+              }}
+            >
+              Notifications
+            </Text>
+            <TouchableOpacity style={styles.headerBehave}>
+              <Text style={styles.textHeader}>Done</Text>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+        {/* End of Header */}
+  
+        <Animated.ScrollView
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: true }
+          )}
+        >
+          <View style={{ marginTop: CONTAINER_HEIGHT }}>
+            {/* Notify Card */}
+            <NotifyCard
+              nameTask={this.notifyInfo.name}
+              createDate={this.notifyInfo.date}
+              projectName={this.notifyInfo.project}
+              dueDate={this.notifyInfo.due}
+            ></NotifyCard>
+            {/* End of Notify Card */}
+  
+            {/* Notify Card */}
+            <NotifyCard
+              nameTask={this.notifyInfo.name}
+              createDate={this.notifyInfo.date}
+              projectName={this.notifyInfo.project}
+              dueDate={this.notifyInfo.due}
+            ></NotifyCard>
+            {/* End of Notify Card */}
+            {/* Notify Card */}
+            <NotifyCard
+              nameTask={this.notifyInfo.name}
+              createDate={this.notifyInfo.date}
+              projectName={this.notifyInfo.project}
+              dueDate={this.notifyInfo.due}
+            ></NotifyCard>
+            {/* End of Notify Card */}
+            {/* Notify Card */}
+            <NotifyCard
+              nameTask={this.notifyInfo.name}
+              createDate={this.notifyInfo.date}
+              projectName={this.notifyInfo.project}
+              dueDate={this.notifyInfo.due}
+            ></NotifyCard>
+            {/* End of Notify Card */}
+            {/* Notify Card */}
+            <NotifyCard
+              nameTask={this.notifyInfo.name}
+              createDate={this.notifyInfo.date}
+              projectName={this.notifyInfo.project}
+              dueDate={this.notifyInfo.due}
+            ></NotifyCard>
+            {/* End of Notify Card */}
+            {/* Notify Card */}
+            <NotifyCard
+              nameTask={this.notifyInfo.name}
+              createDate={this.notifyInfo.date}
+              projectName={this.notifyInfo.project}
+              dueDate={this.notifyInfo.due}
+            ></NotifyCard>
+            {/* End of Notify Card */}
+            {/* Notify Card */}
+            <NotifyCard
+              nameTask={this.notifyInfo.name}
+              createDate={this.notifyInfo.date}
+              projectName={this.notifyInfo.project}
+              dueDate={this.notifyInfo.due}
+            ></NotifyCard>
+            {/* End of Notify Card */}
+          </View>
+        </Animated.ScrollView>
+      </KeyboardAvoidingView>
+    );
+  }
+  
+  const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        padding: 15,
-        backgroundColor: 'white',
-        flexDirection: 'row',
-        alignItems: 'center',
+      flex: 1,
+      backgroundColor: "white",
     },
-    HeaderLeftImage: {
-        width: '100%',
-        height: '100%',
-        borderRadius: 50,
+    header: {
+      position: "absolute",
+      width: "100%",
+      height: CONTAINER_HEIGHT,
+      left: 0,
+      right: 0,
+      top: 0,
+      backgroundColor: "white",
+      zIndex: 1000,
+      elevation: 1000,
     },
-    HeaderLeftImageView: {
-        width: 40,
-        height: 40,
-        borderRadius: 40 / 2,
-        marginLeft: 15,
-    }
-});
-
-
-
+    rowSection: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginTop: 20,
+    },
+    headerBehave: {
+      padding: 20,
+    },
+    textHeader: {
+      color: "#3379E4",
+      fontWeight: "500",
+      fontSize: 18,
+    },
+  });
+  

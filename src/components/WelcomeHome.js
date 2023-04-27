@@ -18,56 +18,34 @@ const WelcomeHome = () => {
     useEffect(() => {
         const hour = time.getHours();
         if (hour >= 5 && hour < 12) {
-            setGreeting('Chào buổi sáng, ');
+            setGreeting('chào buổi sáng');
         } else if (hour >= 12 && hour < 18) {
-            setGreeting('Chào buổi chiều, ');
+            setGreeting('chào buổi chiều');
         } else {
-            setGreeting('Chào buổi tối, ');
+            setGreeting('chào buổi tối');
         }
     }, [time]);
 
     return (
         <View style={styles.container}>
-            <View style={styles.left}>
-                <Text style={styles.welcome}>{greeting}</Text>
-                <Text style={styles.name}>{name}</Text>
-            </View>
-            <View style={styles.right}>
-                <Avatar.Image size={45} source={'https://i.pinimg.com/236x/c7/ba/15/c7ba15941beb640db8663d967cb04d6d.jpg'} />
-            </View>
+                <Text style={styles.welcome}>Smarthome, {greeting}</Text>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        width: '95%',
+        width: '100%',
         margin: 10,
         padding: 5,
-        // justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-    },
-    left: {
-        flexDirection: 'row',
-        marginRight: 30,
-        marginLeft: 5,
-    },
-    right: {
-        marginLeft: 80,
-        marginRight: 5,
+        marginTop: 20,
+        alignSelf: 'flex-start',
     },
     welcome: {
         fontSize: 23,
-        fontWeight: '300',
-        // fontWeight: '400',
-        color: '#EEEEEE',
-    },
-    name: {
-        fontSize: 23,
         fontWeight: '400',
-        color: '#EEEEEE',
-    }
+        // color: '#EEEEEE',
+    },
 });
 
 export default WelcomeHome;

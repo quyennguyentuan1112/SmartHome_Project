@@ -1,31 +1,52 @@
-import React, { useState } from 'react';
-import { Button, Text, View, StatusBar, StyleSheet, ImageBackground } from 'react-native';
-// import styles from '../styles/styleAll';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Avatar } from 'react-native-paper';
+import React, { useState, useEffect } from 'react';
+import { Button, Text, View, StatusBar, StyleSheet, TouchableOpacity } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
 import WeatherApp from './WeatherApp';
 import WelcomeHome from './WelcomeHome';
 import ScrollViewHome from './ScrollViewHome';
 
 
-const HomeScreen = ({ navigation }) => {
-    const image = { uri: 'https://i.pinimg.com/564x/00/a5/55/00a55562daa10e73258e094237842ceb.jpg' }
+const HomeScreen = ({ route, navigation }) => {
+    const { homeId } = route.params;
 
     return (
         <>
             <View style={styles.container}>
-                <ImageBackground source={image} blurRadius={5} resizeMode="cover" style={styles.imageBackground}>
-                    <WelcomeHome />
-                    <WeatherApp />
-                    <Text style = {styles.TitleScrollView}>Devices and Feature</Text>
-                    <ScrollViewHome 
-                    navigation = {navigation}/>
-                </ImageBackground>
+                <WelcomeHome />
+                <WeatherApp />
+                <View style={styles.headerDeviceAndFeatures}>
+                    <Text style={styles.TitleScrollView}>Devices and Feature</Text>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 20,
+                            width: 40,
+                            height: 40,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            shadowColor: '#000',
+                            shadowOffset: {
+                                width: 0,
+                                height: 2,
+                            },
+                            shadowOpacity: 0.25,
+                            shadowRadius: 3.84,
+                            elevation: 5,
+                            marginRight: 30,
+                        }}
+                    onPress={() => navigation.navigate('AddDevice', { homeId : homeId })}
+                    >
+                        <AntDesign name="plus" size={24} color="black" />
+                    </TouchableOpacity>
+                </View>
+                <ScrollViewHome
+                    navigation={navigation}
+                    homeId={homeId}
+                />
             </View>
 
-            <StatusBar barStyle="light-content" backgroundColor="#222831" />
+            <StatusBar barStyle="default" />
         </>
     )
 }
@@ -34,21 +55,22 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        // justifyContent: 'center',
-    },
-    imageBackground: {
-        flex: 1,
+        backgroundColor: 'white',
         width: '100%',
-        alignItems: 'center',
-        // justifyContent: 'center',
     },
-    TitleScrollView : {
+    headerDeviceAndFeatures: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    TitleScrollView: {
         fontSize: 20,
-        fontWeight: '400',
-        marginBottom: 20,
-        marginTop: 50,
+        fontWeight: '500',
+        marginBottom: 10,
+        marginTop: 20,
         marginLeft: 20,
-        color: '#EEEEEE',
+        // color: '#393E46',
         alignSelf: 'flex-start',
     },
 });

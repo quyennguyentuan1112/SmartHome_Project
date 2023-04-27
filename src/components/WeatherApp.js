@@ -64,14 +64,14 @@ const styles = StyleSheet.create({
     container: {
         margin: 10,
         padding: 0,
-        backgroundColor: '#6096B4',
+        backgroundColor: '#00ADB5',
         width: '85%',
         height: 150,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
         borderRadius: 20,
-        marginTop: 30,
+        marginTop: 10,
     },
 
     left: {
