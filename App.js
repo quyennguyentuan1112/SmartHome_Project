@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { api } from "./src/api/client";
 
 
 import HomeScreen from "./src/components/HomeScreen";
@@ -118,9 +119,17 @@ export default function App() {
 
 
 
-// useEffect(() => {
-    
-// }, [])
+useEffect(() => {
+    const fetchData = async () => {
+        const options = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        };
+        const data = await api("", options);
+        console.log(data);
+    }
+    fetchData();
+}, [])
 
 ////////////////////////////////////////////////////////////////
 

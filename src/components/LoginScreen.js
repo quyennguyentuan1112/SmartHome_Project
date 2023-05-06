@@ -27,6 +27,8 @@ const LoginScreen = ({ navigation }) => {
         Alert.alert("Hệ thống đang gặp vấn đề, thử lại sau.")
       }
     } else {
+      setHomeId('');
+      setPassword('');
       navigation.navigate('Tab', {
         homeId: homeId,
       })

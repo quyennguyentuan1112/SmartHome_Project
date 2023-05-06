@@ -1,9 +1,20 @@
 import React from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { CommonActions } from '@react-navigation/native';
 
+export default function UserScreen({navigation}) {
 
-export default function UserScreen() {
+  const handleLogout = () => {
+    // Điều hướng đến màn hình Login và loại bỏ màn hình UserScreen khỏi stack
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      })
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -112,7 +123,9 @@ export default function UserScreen() {
           marginTop: 10,
           backgroundColor: '#000',
           marginBottom: 10
-        }}>
+        }}
+        onPress={handleLogout}
+        >
 
           <Text style={{ fontSize: 19, color: '#fff', fontWeight: 'bold', marginLeft: 10 }}>  Logout </Text>
 

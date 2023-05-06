@@ -6,6 +6,7 @@ import ReloadableScrollView from './ReloadableScrollView';
 const ListTemperatureHumidity = ({ route, navigation }) => {
     const { homeId } = route.params;
     // const [count, setCount] = useState(0);
+    const [isLoad, setIsLoad] = useState(true);
     const [getDevices, setGetDevices] = useState([
         {
             idDevice: "Temperature",
@@ -20,20 +21,22 @@ const ListTemperatureHumidity = ({ route, navigation }) => {
             category: "Humidity"
         }
     ]);
-    const [valueDevices, setValueDevices] = useState({
-        temperature: [
-            {
-                ts: 1682481842437,
-                value: 27.8
-            }
-        ],
-        humidity: [
-            {
-                ts: 1682481842437,
-                value: 40.1
-            }
-        ]
-    });
+    const [valueDevices, setValueDevices] = useState(null
+        // {
+        //     temperature: [
+        //         {
+        //             ts: 1682481842437,
+        //             value: 27.8
+        //         }
+        //     ],
+        //     humidity: [
+        //         {
+        //             ts: 1682481842437,
+        //             value: 40.1
+        //         }
+        //     ]
+        // }
+    );
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,9 +49,10 @@ const ListTemperatureHumidity = ({ route, navigation }) => {
                     }
                 });
                 const datafix = await res.json();
-                console.log(datafix);
+                // console.log(datafix);
                 setValueDevices(datafix);
-                console.log(valueDevices);
+                // console.log(valueDevices);
+                setIsLoad(false);
             } catch (error) {
                 Alert.alert("Xảy ra lỗi trong quá trình đọc dữ liệu.");
                 navigation.navigate('Home');
@@ -58,6 +62,7 @@ const ListTemperatureHumidity = ({ route, navigation }) => {
     }, [])
 
     const handleRefresh = async () => {
+        setIsLoad(true);
         try {
             const res = await fetch('https://demo.thingsboard.io:443/api/plugins/telemetry/DEVICE/4c2fe410-cd78-11ed-9b15-dd2dac50548f/values/timeseries?keys=temperature%2Chumidity&useStrictDataTypes=true', {
                 method: 'GET',
@@ -67,9 +72,10 @@ const ListTemperatureHumidity = ({ route, navigation }) => {
                 }
             });
             const datafix = await res.json();
-            console.log(datafix);
+            // console.log(datafix);
             setValueDevices(datafix);
             console.log(valueDevices);
+            setIsLoad(false);
         } catch (error) {
             console.log(error);
             Alert.alert("Xảy ra lỗi trong quá trình đọc dữ liệu.");
@@ -82,7 +88,7 @@ const ListTemperatureHumidity = ({ route, navigation }) => {
             <ReloadableScrollView onRefresh={handleRefresh}>
                 <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
                     <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-                        {`${getDevices[0].nameDevice} : ${valueDevices.temperature[0].value}`}
+                        {`${getDevices[0].nameDevice} : ${isLoad ? '...' : valueDevices.temperature[0].value}`}
                     </Text>
                     <Text style={{ fontSize: 14 }}>
                         {getDevices[0].deviceDescription}
@@ -90,7 +96,7 @@ const ListTemperatureHumidity = ({ route, navigation }) => {
                 </View>
                 <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
                     <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-                        {`${getDevices[1].nameDevice} : ${valueDevices.humidity[0].value} `}
+                        {`${getDevices[1].nameDevice} : ${isLoad ? '...' : valueDevices.humidity[0].value} `}
                     </Text>
                     <Text style={{ fontSize: 14 }}>
                         {getDevices[1].deviceDescription}

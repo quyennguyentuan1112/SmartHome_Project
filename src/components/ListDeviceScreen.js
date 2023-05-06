@@ -5,25 +5,10 @@ import { api } from '../api/client';
 
 const ListDeviceScreen = ({ route, navigation }) => {
     const { homeId, type } = route.params;
+    const [isLoad1, setIsLoad1] = useState(true);
+    const [devices, setDevices] = useState()
 
-    const [devices, setDevices] = useState([
-        // {
-        //     idDevice: "Led_1",
-        //     category: "led",
-        //     nameDevice: "đèn 1",
-        //     realTime: false,
-        //     deviceDescription: "phòng khách",
-        //     homeId: "aba"
-        // },
-        // {
-        //     idDevice: "Led_2",
-        //     category: "led",
-        //     nameDevice: "đèn 2",
-        //     realTime: false,
-        //     deviceDescription: "ngoài ban công",
-        //     homeId: "aba"
-        // }
-    ])
+
     const [valueDevices, setValueDevices] = useState({});
 
     const changeRealTimeMode = (idDevice, mode) => {
@@ -61,61 +46,79 @@ const ListDeviceScreen = ({ route, navigation }) => {
 
             try {
                 const dataDevice = await api(url, options);
-                console.log(dataDevice);
+                console.log(dataDevice.data);
                 setDevices(dataDevice.data);
+                setIsLoad1(false);
+                console.log(devices);
+
             } catch (error) {
                 console.error(error);
+                Alert.alert("Xảy ra lỗi trong quá trình đọc dữ liệu.");
+                navigation.navigate('Home');
             }
-
-
-            let listDeviceId = "";
-            for (let i = 0; i < devices.length; i++) {
-                if (i === devices.length - 1) {
-                    listDeviceId = listDeviceId + devices[i].idDevice;
-                    break;
-                }
-                listDeviceId = listDeviceId + devices[i].idDevice + ",";
-            }
-            console.log(listDeviceId);
-
-            let dataValueDevice = await fetch(`https://demo.thingsboard.io/api/v1/qmxrjQH0sbbjF9fdLUWb/attributes?sharedKeys=${listDeviceId}`, {
-                method: "GET",
-            })
-            console.log(dataValueDevice);
-            // return JSON.parse(dataDevice);
-            const dataValueDevices = await dataValueDevice.json();
-            console.log(dataValueDevices);
-            console.log(dataValueDevices.shared);
-            setValueDevices(dataValueDevices);
         }
 
         fetchData();
     }, [])
 
-    // useEffect(() => {
-    //     console.log(devices);
-    // }, [devices]);
 
 
+    useEffect(() => {
+
+        if (devices) {
+            const fetchValueDevices = async () => {
+
+                let listDeviceId = "";
+                for (let i = 0; i < devices.length; i++) {
+                    if (i === devices.length - 1) {
+                        listDeviceId = listDeviceId + devices[i].idDevice;
+                        break;
+                    }
+                    listDeviceId = listDeviceId + devices[i].idDevice + ",";
+                }
+                console.log(listDeviceId);
+
+                try {
+                    let dataValueDevice = await fetch(`https://demo.thingsboard.io/api/v1/qmxrjQH0sbbjF9fdLUWb/attributes?sharedKeys=${listDeviceId}`, {
+                        method: "GET",
+                    })
+                    // console.log(dataValueDevice);
+                    const dataValueDevices = await dataValueDevice.json();
+                    console.log(dataValueDevices);
+                    console.log(dataValueDevices.shared);
+                    setValueDevices(dataValueDevices);
+                } catch (error) {
+                    console.error(error);
+                    Alert.alert("Xảy ra lỗi trong quá trình đọc dữ liệu.");
+                    navigation.navigate('Home');
+                }
+            }
+
+
+            fetchValueDevices();
+        }
+    }, [devices]);
 
     return (
         <View style={styles.container}>
-            {devices.map(device => (
-                <TouchableHighlight
-                    key={device.idDevice}
-                    onPress={() => navigation.navigate(type, {
-                        device: device,
-                        valueDevices: valueDevices,
-                        changeRealTimeMode : changeRealTimeMode,
-                        changeIsOnDevice : changeIsOnDevice,
-                    })}
-                >
-                    <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
-                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{device.nameDevice}</Text>
-                        <Text style={{ fontSize: 14 }}>{device.deviceDescription}</Text>
-                    </View>
-                </TouchableHighlight>
-            ))}
+            {isLoad1
+                ? <Text style={{ alignItems: 'center', justifyContent: 'center', }}>Loading</Text>
+                : devices.map(device => (
+                    <TouchableHighlight
+                        key={device.idDevice}
+                        onPress={() => navigation.navigate(type, {
+                            device: device,
+                            valueDevices: valueDevices,
+                            changeRealTimeMode: changeRealTimeMode,
+                            changeIsOnDevice: changeIsOnDevice,
+                        })}
+                    >
+                        <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{device.nameDevice}</Text>
+                            <Text style={{ fontSize: 14 }}>{device.deviceDescription}</Text>
+                        </View>
+                    </TouchableHighlight>
+                ))}
         </View>
     )
 }
