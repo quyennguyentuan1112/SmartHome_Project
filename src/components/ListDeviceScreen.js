@@ -9,7 +9,7 @@ const ListDeviceScreen = ({ route, navigation }) => {
     const [devices, setDevices] = useState()
 
 
-    const [valueDevices, setValueDevices] = useState({});
+    const [valueDevices, setValueDevices] = useState();
 
     const changeRealTimeMode = (idDevice, mode) => {
         let coppy = devices;
@@ -106,12 +106,16 @@ const ListDeviceScreen = ({ route, navigation }) => {
                 : devices.map(device => (
                     <TouchableHighlight
                         key={device.idDevice}
-                        onPress={() => navigation.navigate(type, {
-                            device: device,
-                            valueDevices: valueDevices,
-                            changeRealTimeMode: changeRealTimeMode,
-                            changeIsOnDevice: changeIsOnDevice,
-                        })}
+                        onPress={() => {
+                            if (valueDevices) {
+                                navigation.navigate(type, {
+                                    device: device,
+                                    valueDevices: valueDevices,
+                                    changeRealTimeMode: changeRealTimeMode,
+                                    changeIsOnDevice: changeIsOnDevice,
+                                })
+                            }
+                        }}
                     >
                         <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
                             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{device.nameDevice}</Text>
