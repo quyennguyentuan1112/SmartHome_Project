@@ -34,7 +34,7 @@ import LampScreenv2 from "./src/components/LampScreenV2";
             <HomeStack.Navigator initialRouteName="Home">
                 <HomeStack.Screen name='Home' component={HomeScreen} initialParams={{ homeId: homeId }}/>
                 <HomeStack.Screen name='Fan' component={FanControlScreen} />
-                <HomeStack.Screen name='Lamp' component={LampScreen} />
+                <HomeStack.Screen name='Lamp' component={LampScreenv2} />
                 <HomeStack.Screen name='AddDevice' component={DeviceFormScreen} />
                 <HomeStack.Screen name='Miccontrol' component={MicroScreen} />
                 <HomeStack.Screen name='ListDevice' component={ListDeviceScreen}/>
