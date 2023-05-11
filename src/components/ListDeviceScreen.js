@@ -4,7 +4,7 @@ import { api } from '../api/client';
 
 
 const ListDeviceScreen = ({ route, navigation }) => {
-    const { homeId, type } = route.params;
+    const { homeId, type, addEvent } = route.params;
     const [isLoad1, setIsLoad1] = useState(true);
     const [devices, setDevices] = useState()
 
@@ -113,6 +113,7 @@ const ListDeviceScreen = ({ route, navigation }) => {
                                     valueDevices: valueDevices,
                                     changeRealTimeMode: changeRealTimeMode,
                                     changeIsOnDevice: changeIsOnDevice,
+                                    addEvent : addEvent
                                 })
                             }
                         }}

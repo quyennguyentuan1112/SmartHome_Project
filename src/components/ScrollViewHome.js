@@ -11,7 +11,7 @@ import {
 import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-const ScrollViewHome = ({ navigation, homeId }) => {
+const ScrollViewHome = ({ navigation, homeId, addEvent }) => {
     // const homeId = 
     
 
@@ -19,15 +19,15 @@ const ScrollViewHome = ({ navigation, homeId }) => {
         <>
             <ScrollView style={styles.container}>
                 <View style={styles.rows}>
-                    <TouchableOpacity style={[styles.box, { backgroundColor: '#007AFF', }]} onPress={() => navigation.navigate('Miccontrol', { homeId : homeId})}>
+                    <TouchableOpacity style={[styles.box, { backgroundColor: '#007AFF', }]} onPress={() => navigation.navigate('Miccontrol', { homeId : homeId, addEvent : addEvent})}>
                         <FontAwesome name="microphone" size={70} color="white" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('ListDevice', { homeId : homeId, type: "Fan"})}>
+                    <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('ListDevice', { homeId : homeId, type: "Fan", addEvent : addEvent})}>
                         <FontAwesome5 name="fan" size={70} color="white" />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.rows}>
-                    <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('ListDevice', { homeId : homeId, type: "Lamp"})}>
+                    <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('ListDevice', { homeId : homeId, type: "Lamp", addEvent : addEvent})}>
                         <FontAwesome5 name="lightbulb" size={70} color="white" />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('Temperature and Humididty', { homeId : homeId })}>

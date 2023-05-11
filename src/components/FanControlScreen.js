@@ -3,9 +3,9 @@ import { View, Text, TouchableOpacity, StyleSheet, Slider, Switch } from 'react-
 // import Slider from '@react-native-community/slider';
 
 const FanControlScreen = ({ route, navigation }) => {
-  const { device, valueDevices, changeRealTimeMode, changeIsOnDevice } = route.params;
+  const { device, valueDevices, changeRealTimeMode, changeIsOnDevice, addEvent } = route.params;
 
-  const [isOn, setIsOn] = useState(valueDevices.shared[device.idDevice] === "1" ? true : false);
+  const [isOn, setIsOn] = useState(valueDevices.shared[device.idDevice] === 1 ? true : false);
   const [speed, setSpeed] = useState(0);
   const [timer, setTimer] = useState(0.5);
   const [firsttime, setFirstTime] = useState(true);
@@ -13,7 +13,8 @@ const FanControlScreen = ({ route, navigation }) => {
 
 
   useEffect(() => {
-    console.log("đây là quạt: ", device.nameDevice);
+    console.log(valueDevices.shared);
+    console.log(device.idDevice);
     console.log(valueDevices.shared[device.idDevice]);
     console.log("công tắc quạt: ", isOn);
   }, [])
@@ -24,10 +25,8 @@ const FanControlScreen = ({ route, navigation }) => {
       let isOnPost = "";
       if (isOn === true) isOnPost = "1";
       else isOnPost = "0";
-      // console.log("đến lúc gửi post để thay đổi giá trị quạt, với device.idDevice: ", device.idDevice, ", và isOnPost: ", isOnPost);
-      // if (isLightOn) setValue(50);
-      // else setValue(0);
       const toggleLightAPI = async (idDevice, isOnPost) => {
+        let desc = isOn === true ? `Bật ${device.nameDevice}` : `Tắt ${device.nameDevice}`;
         try {
           console.log("đến lúc gửi post để thay đổi giá trị quạt, với device.idDevice: ", idDevice, ", và isOnPost: ", isOnPost);
           await fetch('https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4c2fe410-cd78-11ed-9b15-dd2dac50548f/SHARED_SCOPE', {
@@ -42,9 +41,11 @@ const FanControlScreen = ({ route, navigation }) => {
           })
           console.log("thiết bị thành công");
           changeIsOnDevice(device.idDevice, isOn)
+          addEvent(desc, "Thành công");
         } catch (error) {
           console.log("Xảy ra lỗi trong quá trình thực thi");
           console.log(error);
+          addEvent(desc, "Thất bại");
         }
       }
       toggleLightAPI(device.idDevice, isOnPost)

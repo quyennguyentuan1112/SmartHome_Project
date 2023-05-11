@@ -9,7 +9,7 @@ import { api } from "../api/client";
 
 
 const LampScreenv2 = ({ route, navigation }) => {
-    const { device, valueDevices, changeRealTimeMode, changeIsOnDevice } = route.params;
+    const { device, valueDevices, changeRealTimeMode, changeIsOnDevice, addEvent } = route.params;
 
     const image = { uri: 'https://i.pinimg.com/236x/db/e5/77/dbe577649abeab1440c5b9a6d3fa8a72.jpg' };
     const [value, setValue] = useState(0);
@@ -70,6 +70,7 @@ const LampScreenv2 = ({ route, navigation }) => {
         let isLightOnPost = "";
         if (isLightOn === true) isLightOnPost = "1";
         else isLightOnPost = "0";
+        let desc = isLightOnPost == 1 ? `Bật ${device.nameDevice}` : `Tắt ${device.nameDevice}`;
         try {
             console.log("đến lúc gửi post để thay đổi giá trị đèn, với device.idDevice: ", idDevice, ", và isLightOnPost: ", isLightOnPost);
             await fetch('https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4c2fe410-cd78-11ed-9b15-dd2dac50548f/SHARED_SCOPE', {
@@ -83,10 +84,13 @@ const LampScreenv2 = ({ route, navigation }) => {
                 })
             })
             console.log("thiết bị thành công");
+            
+            addEvent(desc, "Thành công");
             changeIsOnDevice(device.idDevice, isLightOn)
         } catch (error) {
             console.log("Xảy ra lỗi trong quá trình thực thi");
             console.log(error);
+            addEvent(desc, "Thất bại");
         }
     }
 

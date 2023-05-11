@@ -15,28 +15,14 @@ export default class NotifyCard extends Component {
                     <View style={styles.detailNotify}>
                         {/* Reminder */}
                         <View style={styles.flexRow}>
-                            <Text
-                                style={{ fontSize: 16, fontWeight: "500", color: "#363942" }}
-                            >
-                                Reminder in
-                            </Text>
-                            <Text
-                                style={{
-                                    fontSize: 16,
-                                    fontWeight: "600",
-                                    color: "black",
-                                    marginLeft: 5,
-                                }}
-                            >
-                                {this.props.nameTask}
-                            </Text>
+                            <Text style={{ fontSize: 16, fontWeight: "500", color: "#363942" }}> Bạn đã {this.props.nameNoti}</Text>
                         </View>
                         {/* Date */}
                         <View style={styles.flexRow}>
                             <Text
-                                style={{ fontSize: 12, color: "#363942", fontWeight: "300" }}
+                                style={{ fontSize: 12, color: "#363942", fontWeight: "500" }}
                             >
-                                {this.props.createDate} - {this.props.projectName}
+                                Kết quả: {this.props.resultNoti}
                             </Text>
                         </View>
 
@@ -62,7 +48,6 @@ export default class NotifyCard extends Component {
                         </View>
                     </View>
                 </View>
-                {/* Đường kẻ */}
                 <View style={styles.lineInNotifyCard} />
             </View>
         );

@@ -8,7 +8,10 @@ import ScrollViewHome from './ScrollViewHome';
 
 
 const HomeScreen = ({ route, navigation }) => {
-    const { homeId } = route.params;
+    const { homeId, addEvent } = route.params;
+    useEffect(() => {
+        console.log("tai home screen homeId: ", homeId);
+    }, [])
 
     return (
         <>
@@ -35,7 +38,7 @@ const HomeScreen = ({ route, navigation }) => {
                             elevation: 5,
                             marginRight: 30,
                         }}
-                    onPress={() => navigation.navigate('AddDevice', { homeId : homeId })}
+                    onPress={() => navigation.navigate('AddDevice', { homeId, addEvent })}
                     >
                         <AntDesign name="plus" size={24} color="black" />
                     </TouchableOpacity>
@@ -43,6 +46,7 @@ const HomeScreen = ({ route, navigation }) => {
                 <ScrollViewHome
                     navigation={navigation}
                     homeId={homeId}
+                    addEvent={addEvent}
                 />
             </View>
 

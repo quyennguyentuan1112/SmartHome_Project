@@ -29,7 +29,7 @@ const recordingOptions = {
 };
 
 const MicroScreen = ({ route, navigation }) => {
-    const { homeId } = route.params;
+    const { homeId, addEvent } = route.params;
 
     const [recording, setRecording] = useState(null);
     const [isFetching, setIsFetching] = useState(false);
@@ -123,10 +123,12 @@ const MicroScreen = ({ route, navigation }) => {
                 })
                 console.log("bật thiết bị thành công");
                 setResult("bật thiết bị thành công")
+                addEvent(`Bật ${nameDevice}`, "Thành công");
                 return;
             } catch (error) {
                 console.log("Xảy ra lỗi trong quá trình thực thi");
                 setResult("Xảy ra lỗi trong quá trình thực thi");
+                addEvent(`Bật ${nameDevice}`, "Thất bại");
                 return;
             }
         } else if (keyMessage === "tắt") {
@@ -148,10 +150,12 @@ const MicroScreen = ({ route, navigation }) => {
                 })
                 console.log("tắt thiết bị thành công");
                 setResult("tắt thiết bị thành công");
+                addEvent(`Tắt ${nameDevice}`, "Thành công");
                 return;
             } catch (error) {
                 console.log("Xảy ra lỗi trong quá trình thực thi");
                 setResult("Xảy ra lỗi trong quá trình thực thi");
+                addEvent(`Tắt ${nameDevice}`, "Thất bại");
                 return;
             }
         } else if (keyMessage === "đọc") {
